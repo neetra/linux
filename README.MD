@@ -1,5 +1,5 @@
-# Question 1: Individual
-# Question 2 : STEPS
+## Question 1: Individual
+## Question 2 : STEPS
 -  Run following command on guest VM
 
     - sudo apt-get update
@@ -16,14 +16,16 @@
     - make -j 2
     - sudo make INSTALL_MOD_STRIP=1 modules_install
     - sudo make install
-    - cd cmpe283_1/
+    - sudo reboot    
+    - cd linux/cmpe283_1/
     - make
     - sudo insmod cmpe283-1.ko
     - dmesg
     - sudo rmmod cmpe283-1
     - dmesg
-
-# TROUBLESHOOTING
+## OUTPUT
+   Sample output is [here](assignment1_output.txt) 	
+## TROUBLESHOOTING
 - Enable nested virtualization
     || |
     |-|-|
@@ -46,6 +48,8 @@
     - make clean
     - sudo reboot
     - make oldconfig        
+    
+    
 
 
 

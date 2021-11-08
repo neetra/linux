@@ -8,7 +8,7 @@
 	- %ebx and %ecx return values are measured in processor cycles, across all VCPUs
 ## Question 1: Individual
 ## Question 2 : STEPS
--  Run following command on guest VM
+-  Run following command on machine running as hypervisor
     ```
 	    - sudo apt-get update
 	    - sudo apt-get -y install openssh-server git build-essential kernel-package fakeroot libncurses5-dev libssl-dev ccache libelf-dev bison flex
@@ -27,6 +27,24 @@
         - sudo modprobe kvm_intel	
 
     ```
+- Steps to create nested virtual machine
+	- Enviornment : ubuntu 20.04.3
+	- Follow below steps - [Reference](https://www.tecmint.com/install-kvm-on-ubuntu/)
+		```
+			- sudo apt install -y qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils virt-manager
+			
+		```
+		- Check the status of libvirt is running
+		```
+			sudo systemctl status libvirtd
+		```
+		- Check whether modules are loaded
+		```
+			lsmod | grep -i kvm
+		```
+		- Create ubuntu using virtual machine manager
+
+
 ## OUTPUT
    - Exit output is [here](cmpe283_a2_output/exit.png) 	
    - Processor cycle output is [here](cmpe283_a2_output/time.png) 	

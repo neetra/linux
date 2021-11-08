@@ -5888,16 +5888,15 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
  * The guest has exited.  See if we can fix it or if we need userspace
  * assistance.
  */
-extern atomic_t total_exits;
+
+
 static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 {
 	struct vcpu_vmx *vmx = to_vmx(vcpu);
 	union vmx_exit_reason exit_reason = vmx->exit_reason;
 	u32 vectoring_info = vmx->idt_vectoring_info;
 	u16 exit_handler_index;
-	//extern u32 total_exits;
-
-	atomic_inc(&total_exits);
+	
 	/*
 	 * Flush logged GPAs PML buffer, this will make dirty_bitmap more
 	 * updated. Another good is, in kvm_vm_ioctl_get_dirty_log, before
@@ -6052,11 +6051,32 @@ unexpected_vmexit:
 	vcpu->run->internal.data[1] = vcpu->arch.last_vmentry_cpu;
 	return 0;
 }
+uint64_t rdtsc_customize(void){
+    unsigned int lo,hi;
+    __asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
+    return ((uint64_t)hi << 32) | lo;
+}
 
+extern atomic_t total_exits;
+extern atomic_long_t total_cycles;
 static int vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 {
-	int ret = __vmx_handle_exit(vcpu, exit_fastpath);
+	uint64_t s_cycle, e_cycle, d_cycle;
+	int ret;
 
+	atomic_inc(&total_exits);
+
+	// Measure start time
+	s_cycle = rdtsc_customize();
+	ret = __vmx_handle_exit(vcpu, exit_fastpath);
+	
+	// Measure end time
+	e_cycle = rdtsc_customize();
+
+	// add cycle
+	d_cycle = (e_cycle - s_cycle);
+	//printk("----------------------------------Cycle  start: %llu end: %llu  diff : %llu", s_cycle, e_cycle, d_cycle);
+	atomic64_add(d_cycle ,&total_cycles);
 	/*
 	 * Exit to user space when bus lock detected to inform that there is
 	 * a bus lock in guest.

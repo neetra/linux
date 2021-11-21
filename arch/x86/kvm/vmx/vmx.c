@@ -6057,14 +6057,21 @@ uint64_t rdtsc_customize(void){
     return ((uint64_t)hi << 32) | lo;
 }
 
-extern atomic_t total_exits;
-extern atomic_long_t total_cycles;
+extern atomic_t total_exits_array[70];
+extern atomic_long_t total_cycles_array[70];
 static int vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 {
 	uint64_t s_cycle, e_cycle, d_cycle;
 	int ret;
+	struct vcpu_vmx *vmx = to_vmx(vcpu);
+	union vmx_exit_reason exit_reason = vmx->exit_reason;
+	u16 exit_handler_index;
 
-	atomic_inc(&total_exits);
+	// Refer line 6035 : to get the exit handler code
+	exit_handler_index = array_index_nospec((u16)exit_reason.basic,
+						kvm_vmx_max_exit_handlers);
+
+	atomic_inc(&total_exits_array[exit_handler_index]);
 
 	// Measure start time
 	s_cycle = rdtsc_customize();
@@ -6076,7 +6083,7 @@ static int vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	// add cycle
 	d_cycle = (e_cycle - s_cycle);
 	//printk("----------------------------------Cycle  start: %llu end: %llu  diff : %llu", s_cycle, e_cycle, d_cycle);
-	atomic64_add(d_cycle ,&total_cycles);
+	atomic64_add(d_cycle, &total_cycles_array[exit_handler_index]);
 	/*
 	 * Exit to user space when bus lock detected to inform that there is
 	 * a bus lock in guest.

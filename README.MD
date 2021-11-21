@@ -10,13 +10,7 @@
 ## Question 2 : STEPS
 -  Run following command on machine running as hypervisor
     ```
-	    - sudo apt-get update
-	    - sudo apt-get -y install openssh-server git build-essential kernel-package fakeroot libncurses5-dev libssl-dev ccache libelf-dev bison flex
-	    - git clone https://github.com/neetra/linux.git
-	    - cd linux/
-	    - cp /boot/config-`uname -r` .config	    
-	    - make oldconfig
-	    - make prepare
+	    - Ensure that kernel builds (You can refer the steps from assignment 1 from [here](https://github.com/neetra/linux/tree/master/))
 	    - make -j 2 modules
 	    - make -j 2
 	    - sudo make INSTALL_MOD_STRIP=1 modules_install
@@ -24,7 +18,7 @@
 	    - sudo rmmod -f kvm_intel
 	    - sudo rmmod -f kvm
    	    - sudo modprobe kvm
-        - sudo modprobe kvm_intel	
+            - sudo modprobe kvm_intel	
 
     ```
 - Steps to create nested virtual machine
@@ -44,7 +38,20 @@
 		```
 		- Create ubuntu using virtual machine manager
 
-
+## HOW TO TEST
+- Install cpuid package in the nested VM(Guest VM / VM level 1)
+	```
+		sudo apt-get install cpuid
+	```
+- Run following commands
+	-  Get total exits in the nested VM
+	```
+		cpuid -l 0x4FFFFFFF	
+	```
+	-  Get total time processing exits(processor cycles) in the nested VM
+	```
+		cpuid -l 0x4FFFFFFE
+	```
 ## OUTPUT
    - Exit output is [here](cmpe283_a2_output/exit.png) 	
    - Processor cycle output is [here](cmpe283_a2_output/time.png) 	
@@ -77,6 +84,7 @@
 	- remove first kvm_intel and then kvm
 -  expected ‘const atomic_t * {aka const struct <anonymous> *}’ but argument is of type ‘atomic_long_t * {aka struct <anonymous> *}’
     - Use atomic64_read
+-  Refer [this](https://stackoverflow.com/questions/13772567/how-to-get-the-cpu-cycle-count-in-x86-64-from-c) to get total processor cycles.
  		       
     
     

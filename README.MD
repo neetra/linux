@@ -1,11 +1,15 @@
-## Assignment 2
+## Assignment 3
 - Your assignment is to modify the CPUID emulation code in KVM to report back additional information when special CPUID leaf nodes are requested.
-- For CPUID leaf node %eax=0x4FFFFFFF:
-	- Return the total number of exits (all types) in %eax
-- For CPUID leaf node %eax=0x4FFFFFFE:
-	- Return the high 32 bits of the total time spent processing all exits in %ebx
-	- Return the low 32 bits of the total time spent processing all exits in %ecx
-	- %ebx and %ecx return values are measured in processor cycles, across all VCPUs
+- For CPUID leaf node %eax=0x4FFFFFFD:
+	- Return the number of exits for the exit number provided (on input) in %ecx
+	- This value should be returned in %eax 
+- For CPUID leaf node %eax=0x4FFFFFFC:
+	- Return the time spent processing the exit number provided (on input) in %ecx
+	- Return the high 32 bits of the total time spent for that exit in %ebx
+	- Return the low 32 bits of the total time spent for that exit in %ecx
+- For leaf nodes 0x4FFFFFFD and 0x4FFFFFFC, if %ecx (on input) contains a value not defined by the 
+  SDM, return 0 in all %eax, %ebx, %ecx registers and return 0xFFFFFFFF in %edx. For exit types not 
+  enabled in KVM, return 0s in all four registers.
 ## Question 1: Individual
 ## Question 2 : STEPS
 -  Run following command on machine running as hypervisor
@@ -51,10 +55,34 @@
 	-  Get total time processing exits(processor cycles) in the nested VM
 	```
 		cpuid -l 0x4FFFFFFE
-	```
+
+## Question 3 : Comment on the frequency of exits – does the number of exits increase at a stable rate? Or are there more exits performed during certain VM operations? Approximately how many exits does a full VM boot entail?
+- The number of exits do not increase at stable rate.
+- VM reboot performs approximately ... exits
+- 
+## Question 4:  Of the exit types defined in the SDM, which are the most frequent? Least?
+- Most frequent exits:
+	|Exit No| Exit description| Output
+	|--|--|--|
+	|1|External Interrupt||
+	|12|HLT||
+	|30| I/O||	
+	|32|WRMSR||
+	||48| EPT Violation||
+	|49| EPT misconfiguration|
+- Least Frequent exits:
+	
+	|Exit No| Exit description| Output
+	|--|--|--|
+	|29|Mov DR||
+	|54|WBINVD||
+	|55|XSETBW||
 ## OUTPUT
-   - Exit output is [here](cmpe283_a2_output/exit.png) 	
-   - Processor cycle output is [here](cmpe283_a2_output/time.png) 	
+   - Test Case : Valid exit but not enabled in KVM and Invalid exit
+	![](ass3/TestCaseInvalidAndNot enable.png)
+ 
+
+   - Test Case: Number of exits for VM reboot
 ## TROUBLESHOOTING
 - Enable nested virtualization
     || |

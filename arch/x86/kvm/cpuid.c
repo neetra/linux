@@ -1229,7 +1229,8 @@ EXPORT_SYMBOL(total_cycles_array);
 int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 {
 	u32 eax, ebx, ecx, edx;
-	uint64_t total_cycles_temp;
+	uint64_t total_cycles_temp;	
+	int i =0 ;
 	if (cpuid_fault_enabled(vcpu) && !kvm_require_cpl(vcpu, 0))
 		return 1;
 
@@ -1259,6 +1260,11 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 			// Exits 
 			if(eax == 0x4FFFFFFD)
 			{
+				
+				for(i=0; i<70; i++)
+				{
+					printk("Exits for %d is %u", i, atomic_read(&total_exits_array[i]));
+				}
 				eax = atomic_read(&total_exits_array[ecx]);
 			}
 			// Time in cycles

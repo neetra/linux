@@ -58,8 +58,8 @@
 
 ## Question 3 : Comment on the frequency of exits – does the number of exits increase at a stable rate? Or are there more exits performed during certain VM operations? Approximately how many exits does a full VM boot entail?
 - The number of exits do not increase at stable rate.
-- VM reboot performs approximately 1.2 million exits
-- 
+- VM reboot performs approximately 1877690 exits. Refer [this](https://github.com/neetra/linux/tree/assignment3#output) to see calculations.
+
 ## Question 4:  Of the exit types defined in the SDM, which are the most frequent? Least?
 - Most frequent exits:
 	|Exit No| Exit description| Output
@@ -83,6 +83,7 @@
  
 
    - Test Case: Number of exits for VM reboot
+	![](https://github.com/neetra/linux/blob/netra/assignment2/cmpe283_a2_output/totalexitsonreboot.png)
 ## TROUBLESHOOTING
 - Enable nested virtualization
     || |

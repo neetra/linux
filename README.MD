@@ -48,13 +48,13 @@
 		sudo apt-get install cpuid
 	```
 - Run following commands
-	-  Get total exits in the nested VM
+	-  Get  exits in the nested VM
 	```
-		cpuid -l 0x4FFFFFFF	
+		cpuid -l 0x4FFFFFFD -s <exitnumber>	
 	```
-	-  Get total time processing exits(processor cycles) in the nested VM
+	-  Get  time processing exits(processor cycles) in the nested VM
 	```
-		cpuid -l 0x4FFFFFFE
+		cpuid -l 0x4FFFFFFC -s <exitnumber>
 
 ## Question 3 : Comment on the frequency of exits – does the number of exits increase at a stable rate? Or are there more exits performed during certain VM operations? Approximately how many exits does a full VM boot entail?
 - The number of exits do not increase at stable rate.

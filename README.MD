@@ -79,7 +79,7 @@
 	|55|XSETBW||
 ## OUTPUT
    - Test Case : Valid exit but not enabled in KVM and Invalid exit
-	![image](ass3/TestCaseInvalidAndNotenable.png)
+	- ![](ass3/CornerCase.png)
  
 
    - Test Case: Number of exits for VM reboot

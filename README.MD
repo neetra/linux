@@ -58,25 +58,25 @@
 
 ## Question 3 : Comment on the frequency of exits – does the number of exits increase at a stable rate? Or are there more exits performed during certain VM operations? Approximately how many exits does a full VM boot entail?
 - The number of exits do not increase at stable rate.
-- VM reboot performs approximately ... exits
+- VM reboot performs approximately 1.2 million exits
 - 
 ## Question 4:  Of the exit types defined in the SDM, which are the most frequent? Least?
 - Most frequent exits:
 	|Exit No| Exit description| Output
 	|--|--|--|
-	|1|External Interrupt||
-	|12|HLT||
-	|30| I/O||	
-	|32|WRMSR||
-	||48| EPT Violation||
-	|49| EPT misconfiguration|
+	|1|External Interrupt|![](ass3/Externalinterrupt.png)|
+	|12|HLT|![](ass3/HLT.png)|
+	|30| I/O|![](ass3/IO.png)|	
+	|32|WRMSR|![](ass3/WRMSR.png)|
+	|48| EPT Violation|![](ass3/EPTViolation.png)|
+	|49| EPT misconfiguration|![](ass3/EPTMisconfiguration.png)|
 - Least Frequent exits:
 	
 	|Exit No| Exit description| Output
 	|--|--|--|
-	|29|Mov DR||
-	|54|WBINVD||
-	|55|XSETBW||
+	|29|Mov DR|![](ass3/MovDR.png)|
+	|54|WBINVD|![](ass3/WBINVD.png)|
+	|55|XSETBW|![](ass3/XSETBW.png)|
 ## OUTPUT
    - Test Case : Valid exit but not enabled in KVM and Invalid exit
 	- ![](ass3/CornerCase.png)

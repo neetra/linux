@@ -6,9 +6,9 @@
 	- ![imag2](ass4/EPTB.png)
 -  Without EPT (EPT= 0)
    - Steps
-	```	
-        	![img](ass4/STEPSEPT0.png)
-	```
+	
+      ![img](ass4/STEPSEPT0.png)
+	
    -
 	- ![ass4/EPT](ass4/WITHOUTEPTA.png)
 	- ![imag2](ass4/WITHOUTEPTB.png)
